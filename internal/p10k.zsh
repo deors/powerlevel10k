@@ -2172,6 +2172,18 @@ _p9k_prompt_docker_machine_init() {
 }
 
 ################################################################
+# Podman machine
+prompt_podman_machine() {
+  local name=${PODMAN_MACHINE_NAME:-$(podman machine info --format "{{ .Host.CurrentMachine }}" 2>/dev/null)}
+  [[ -n $name ]] || return
+  _p9k_prompt_segment "$0" "magenta" "$_p9k_color1" 'SERVER_ICON' 0 '' "${name//\%/%%}"
+}
+
+_p9k_prompt_podman_machine_init() {
+  typeset -g "_p9k__segment_cond_${_p9k__prompt_side}[_p9k__segment_index]"='$commands[podman]'
+}
+
+################################################################
 # GO prompt
 prompt_go_version() {
   _p9k_cached_cmd 0 '' go version || return
